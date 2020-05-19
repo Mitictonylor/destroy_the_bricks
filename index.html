@@ -85,22 +85,35 @@
       }
       if (y + updateY < ballRadius) {
         updateY = -updateY;
-      } else if (y + updateY > canvas.height - ballRadius || y + updateY < ballRadius) {
-        updateY = -updateY;
-        if (rightPressed) {
-          paddleX += 7;
-          if (paddleX + paddleWidth > canvas.width) { //is to avoid that the bar goes outside the margin
-            paddleX = canvas.width - paddleWidth;
-          }
-        } else if (leftPressed) {
-          paddleX -= 7;
-          if (paddleX < 0) {
-            paddleX = 0;
-          }
-        }
-        x += updateX;
-        y += updateY;
       }
+      else if (y + updateY > canvas.height - ballRadius) {
+        if (x > paddleX && x < paddleX + paddleWidth) { //check if the center of the ball is between the left and right
+          // edges of the paddle,If the ball hits the bottom edge of the Canvas we need to check whether it hits
+          //  the paddle, if yes, then it bounces off just like you'd expect; if not then the game is over as before.
+          updateY = -updateY;
+        } else { //if the ball touch the bottom y the game finish
+          alert("GAME OVER");
+          document.location.reload();
+          clearInterval(interval); // Needed for Chrome to end game
+        }
+      }
+
+      if (rightPressed) {
+        paddleX += 7;
+        if (paddleX + paddleWidth > canvas.width) { //is to avoid that the bar goes outside the margin
+          paddleX = canvas.width - paddleWidth;
+        }
+      } else if (leftPressed) {
+        paddleX -= 7;
+        if (paddleX < 0) {
+          paddleX = 0;
+        }
+      }
+      x += updateX;
+      y += updateY;
+    }
+const interval = setInterval(draw, 10); 
+
   </script>
 
 </body>
