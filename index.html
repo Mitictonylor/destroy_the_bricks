@@ -40,12 +40,13 @@
       context.fill();
       context.closePath();
     }
+
     function draw() {
       context.clearRect(0, 0, canvas.width, canvas.height) //clean the canvas after each frame, so it wo't leave any trail
-    drawBall()
+      drawBall()
       x += updateX;
       y += updateY;
-}
+    }
   </script>
 
 </body>
