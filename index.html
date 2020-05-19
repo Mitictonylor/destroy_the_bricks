@@ -27,6 +27,19 @@
     const canvas = document.querySelector("#canvas")
     //we are storing the 2d rendering context in a variable
     const context = canvas.getContext("2d")
+    let x = canvas.width / 2 //set the x for the cirvle in draw
+    let y = canvas.height - 30
+    let updateX = 2 //this will contain the value that will be added at x at every frame
+    let updateY = -2
+    function draw() {
+      context.beginPath();
+      context.arc(x, y, ballRadius, 0, Math.PI * 2);
+      context.fillStyle = "#0095DD";
+      context.fill();
+      context.closePath();
+      x += updateX;
+      y += updateY;
+}
   </script>
 
 </body>
