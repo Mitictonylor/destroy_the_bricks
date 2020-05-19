@@ -31,7 +31,42 @@
     let y = canvas.height - 30
     let updateX = 2 //this will contain the value that will be added at x at every frame
     let updateY = -2
+    const ballRadius = 10
+    const paddleHeight = 10;
+    const paddleWidth = 75;
+    let paddleX = (canvas.width - paddleWidth) / 2; //starting point on the x axis(middle)
+    let rightPressed = false;
+    let leftPressed = false;
 
+
+    document.addEventListener("keydown", keyDownHandler, false); //when the keydown event gonna be triggered it will invoke the keyDownHandler()
+    document.addEventListener("keyup", keyUpHandler, false);
+
+
+    function keyDownHandler(event) {
+      if (event.key == "Right" || event.key == "ArrowRight") {
+        rightPressed = true;
+
+      } else if (event.key == "Left" || event.key == "ArrowLeft") {
+        leftPressed = true;
+      }
+    }
+
+    function keyUpHandler(event) {
+      if (event.key == "Right" || event.key == "ArrowRight") {
+        rightPressed = false;
+      } else if (event.key == "Left" || event.key == "ArrowLeft") {
+        leftPressed = false;
+      }
+    }
+
+    function drawPaddle() {
+      context.beginPath();
+      context.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+      context.fillStyle = '#0095dd';
+      context.fill()
+      context.closePath();
+    }
 
     function drawBall() {
       context.beginPath();
@@ -44,16 +79,28 @@
     function draw() {
       context.clearRect(0, 0, canvas.width, canvas.height) //clean the canvas after each frame, so it wo't leave any trail
       drawBall()
+      drawPaddle()
       if (x + updateX > canvas.width - ballRadius || x + updateX < ballRadius) {
         updateX = -updateX;
       }
       if (y + updateY < ballRadius) {
         updateY = -updateY;
       } else if (y + updateY > canvas.height - ballRadius || y + updateY < ballRadius) {
-          updateY = -updateY;
-      x += updateX;
-      y += updateY;
-    }
+        updateY = -updateY;
+        if (rightPressed) {
+          paddleX += 7;
+          if (paddleX + paddleWidth > canvas.width) { //is to avoid that the bar goes outside the margin
+            paddleX = canvas.width - paddleWidth;
+          }
+        } else if (leftPressed) {
+          paddleX -= 7;
+          if (paddleX < 0) {
+            paddleX = 0;
+          }
+        }
+        x += updateX;
+        y += updateY;
+      }
   </script>
 
 </body>
