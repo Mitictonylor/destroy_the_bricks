@@ -44,6 +44,13 @@
     function draw() {
       context.clearRect(0, 0, canvas.width, canvas.height) //clean the canvas after each frame, so it wo't leave any trail
       drawBall()
+      if (x + updateX > canvas.width - ballRadius || x + updateX < ballRadius) {
+        updateX = -updateX;
+      }
+      if (y + updateY < ballRadius) {
+        updateY = -updateY;
+      } else if (y + updateY > canvas.height - ballRadius || y + updateY < ballRadius) {
+          updateY = -updateY;
       x += updateX;
       y += updateY;
     }
