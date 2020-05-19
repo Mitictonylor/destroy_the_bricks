@@ -44,7 +44,7 @@
     const brickPadding = 10;
     const brickOffsetTop = 30;
     const brickOffsetLeft = 30;
-
+  let score = 0;
     const bricks = [];
     for (let column = 0; column < brickColumnCount; column++) {
       bricks[column] = [];
@@ -78,6 +78,12 @@
         leftPressed = false;
       }
     }
+    function drawScore() {
+      context.font = '25 px Arial'
+      context.fillStyle = "black"
+      context.fillText('Score : ' + score, 8, 20) //8,20 coordinates where the text will be showed
+
+    }
     function collisionDetection() {
       for (var column = 0; column < brickColumnCount; column++) {
         for (var row = 0; row < brickRowCount; row++) {
@@ -86,12 +92,19 @@
             if (x > brick.x && x < brick.x + brickWidth && y > brick.y && y < brick.y + brickHeight) {
               updateY = -updateY;
               brick.status = 0;
+              score ++;
+              if (score == brickRowCount * brickColumnCount) {
+                alert("YOU WIN, CONGRATULATIONS!");
+                document.location.reload();
+                clearInterval(interval); // Needed for Chrome to end game
+              }
 
             }
           }
         }
       }
     }
+
     function drawPaddle() {
       context.beginPath();
       context.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
