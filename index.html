@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Destroy the Bricks</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    canvas {
+      background: #eee;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="canvas" width="480" height="320"></canvas>
+
+  <script>
+    //we store the canvas tag in the variable
+    const canvas = document.querySelector("#canvas")
+    //we are storing the 2d rendering context in a variable
+    const context = canvas.getContext("2d")
+  </script>
+
+</body>
+
+</html>
