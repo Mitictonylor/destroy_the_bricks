@@ -78,7 +78,20 @@
         leftPressed = false;
       }
     }
+    function collisionDetection() {
+      for (var column = 0; column < brickColumnCount; column++) {
+        for (var row = 0; row < brickRowCount; row++) {
+          var brick = bricks[column][row];
+          if (brick.status === 1) {
+            if (x > brick.x && x < brick.x + brickWidth && y > brick.y && y < brick.y + brickHeight) {
+              updateY = -updateY;
+              brick.status = 0;
 
+            }
+          }
+        }
+      }
+    }
     function drawPaddle() {
       context.beginPath();
       context.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
@@ -118,6 +131,7 @@
       drawBricks()
       drawBall()
       drawPaddle()
+      collisionDetection()
       if (x + updateX > canvas.width - ballRadius || x + updateX < ballRadius) {
         updateX = -updateX;
       }
