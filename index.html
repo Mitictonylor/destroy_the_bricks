@@ -44,7 +44,7 @@
     const brickPadding = 10;
     const brickOffsetTop = 30;
     const brickOffsetLeft = 30;
-  let score = 0;
+    let score = 0;
     const bricks = [];
     for (let column = 0; column < brickColumnCount; column++) {
       bricks[column] = [];
@@ -60,7 +60,7 @@
 
     document.addEventListener("keydown", keyDownHandler, false); //when the keydown event gonna be triggered it will invoke the keyDownHandler()
     document.addEventListener("keyup", keyUpHandler, false);
-
+    document.addEventListener("mousemove", mouseMoveHandler, false);
 
     function keyDownHandler(event) {
       if (event.key == "Right" || event.key == "ArrowRight") {
@@ -78,12 +78,19 @@
         leftPressed = false;
       }
     }
+    function mouseMoveHandler(e) {
+      var relativeX = e.clientX - canvas.offsetLeft;
+      if (relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - paddleWidth / 2;
+      }
+    }
     function drawScore() {
       context.font = '25 px Arial'
       context.fillStyle = "black"
       context.fillText('Score : ' + score, 8, 20) //8,20 coordinates where the text will be showed
 
     }
+
     function collisionDetection() {
       for (var column = 0; column < brickColumnCount; column++) {
         for (var row = 0; row < brickRowCount; row++) {
@@ -92,13 +99,12 @@
             if (x > brick.x && x < brick.x + brickWidth && y > brick.y && y < brick.y + brickHeight) {
               updateY = -updateY;
               brick.status = 0;
-              score ++;
+              score++;
               if (score == brickRowCount * brickColumnCount) {
                 alert("YOU WIN, CONGRATULATIONS!");
                 document.location.reload();
                 clearInterval(interval); // Needed for Chrome to end game
               }
-
             }
           }
         }
