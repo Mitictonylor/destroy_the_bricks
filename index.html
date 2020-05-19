@@ -37,6 +37,25 @@
     let paddleX = (canvas.width - paddleWidth) / 2; //starting point on the x axis(middle)
     let rightPressed = false;
     let leftPressed = false;
+    const brickRowCount = 3;
+    const brickColumnCount = 5;
+    const brickWidth = 75;
+    const brickHeight = 20;
+    const brickPadding = 10;
+    const brickOffsetTop = 30;
+    const brickOffsetLeft = 30;
+
+    const bricks = [];
+    for (let column = 0; column < brickColumnCount; column++) {
+      bricks[column] = [];
+      for (let row = 0; row < brickRowCount; row++) {
+        bricks[column][row] = {
+          x: 0,
+          y: 0,
+          status: 1
+        }; //status 1 is like life of the brick, so we can remove it after hit
+      }
+    }
 
 
     document.addEventListener("keydown", keyDownHandler, false); //when the keydown event gonna be triggered it will invoke the keyDownHandler()
@@ -68,6 +87,24 @@
       context.closePath();
     }
 
+    function drawBricks() {
+      for (let column = 0; column < brickColumnCount; column++) {
+        for (let row = 0; row < brickRowCount; row++) {
+          if (bricks[column][row].status == 1) { // if the brick still got a life
+            let brickX = (column * (brickWidth + brickPadding)) + brickOffsetLeft;
+            let brickY = (row * (brickHeight + brickPadding)) + brickOffsetTop;
+            bricks[column][row].x = brickX;
+            bricks[column][row].y = brickY;
+            context.beginPath();
+            context.rect(brickX, brickY, brickWidth, brickHeight);
+            context.fillStyle = "#0095DD";
+            context.fill();
+            context.closePath();
+          }
+        }
+      }
+    }
+
     function drawBall() {
       context.beginPath();
       context.arc(x, y, ballRadius, 0, Math.PI * 2);
@@ -78,6 +115,7 @@
 
     function draw() {
       context.clearRect(0, 0, canvas.width, canvas.height) //clean the canvas after each frame, so it wo't leave any trail
+      drawBricks()
       drawBall()
       drawPaddle()
       if (x + updateX > canvas.width - ballRadius || x + updateX < ballRadius) {
@@ -85,8 +123,7 @@
       }
       if (y + updateY < ballRadius) {
         updateY = -updateY;
-      }
-      else if (y + updateY > canvas.height - ballRadius) {
+      } else if (y + updateY > canvas.height - ballRadius) {
         if (x > paddleX && x < paddleX + paddleWidth) { //check if the center of the ball is between the left and right
           // edges of the paddle,If the ball hits the bottom edge of the Canvas we need to check whether it hits
           //  the paddle, if yes, then it bounces off just like you'd expect; if not then the game is over as before.
@@ -112,8 +149,7 @@
       x += updateX;
       y += updateY;
     }
-const interval = setInterval(draw, 10); 
-
+    const interval = setInterval(draw, 10);
   </script>
 
 </body>
